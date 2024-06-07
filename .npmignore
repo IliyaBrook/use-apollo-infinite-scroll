@@ -1,0 +1,13 @@
+/public
+/src
+/stories
+/.eslintrc.mjs
+/LICENSE
+/README.md
+/tsconfig.json
+/tsconfig.node.json
+/vite.config.mjs
+.idea
+cheatsheet
+assets
+server

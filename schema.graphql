@@ -1,0 +1,13 @@
+schema {
+	query: Query
+}
+
+type Item {
+	description: String!
+	id: ID!
+	name: String!
+}
+
+type Query {
+	items: [Item!]!
+}

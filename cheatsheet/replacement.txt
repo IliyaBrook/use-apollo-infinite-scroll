@@ -1,0 +1,16 @@
+use-apollo-infinite-scroll - replace in all ap project name in kebab-case
+
+README.md replacement
+[project-description] - project description
+[project-example-code] - example code
+replace or remove the Props section
+[1-prop] [1-prop-description]
+## Development
+[dev-env-description]
+
+## main export index.ts file
+
+[ComponentName] - [componentPath]
+
+## package.json
+[pgk-project-description] - project description
