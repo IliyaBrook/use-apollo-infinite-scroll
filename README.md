@@ -1,6 +1,7 @@
+
 # use-apollo-infinite-scroll
 
-[project-description]
+This package provides a custom hook `useApolloInfiniteScroll` to implement infinite scroll pagination using Apollo Client.
 
 ## Installation
 
@@ -16,27 +17,66 @@ yarn add use-apollo-infinite-scroll
 
 ## Usage
 
-### Here is an example of how to use the component:
+### Here is an example of how to use the hook in component:
 
 ```jsx
-[project-example-code]
+import { gql } from '@apollo/client'
+import React, { useState } from 'react'
+import useApolloInfiniteScroll from 'use-apollo-infinite-scroll'
+
+const ITEMS_QUERY = gql`
+  query itemsQuery($cursor: String, $limit: Int) {
+    items(cursor: $cursor, limit: $limit) {
+      id
+      name
+    }
+  }
+`
+
+const App = () => {
+	const { data, lastItemRef, loading } = useApolloInfiniteScroll(ITEMS_QUERY, {
+		limit: 10,
+		dataKey: 'items',
+		idKey: 'id'
+	})
+	
+	return (
+		<div>
+			<h1>Items</h1>
+			<ul>
+				{data?.map((item, index) => (
+					<li key={item.id} ref={data.length - 1 === index ? lastItemRef : null}>
+						{item.name}
+					</li>
+				))}
+			</ul>
+			{loading && <p>Loading...</p>}
+		</div>
+	)
+}
+
+export default App
 ```
 
 ### Props
-* **[1-prop]** - [1-prop-description]
-* **[2-prop]** - [2-prop-description]
+
+* **idKey** - The key used to identify each item (default: 'id').
+* **dataKey** - The key in the response data where the list of items is located.
+* **suspense** - A boolean to determine if suspense mode is used.
+* **variables** - Additional variables to pass to the query.
+* **limit** - Number of items to fetch per request (default: 30).
+* **sortBy** - Field to sort the items by.
+* **sortOrder** - Order to sort the items ('asc' or 'desc').
+* **filters** - Filter object to filter the items.
 
 ## License
-### This project is licensed under the MIT License.
+
+This project is licensed under the MIT License.
 
 ## Development
-* **[dev-env-description]**
+
+To start the development server, run:
 
 ```sh
 yarn dev
 ```
-
-## Demo
-
-[Open Demo](https://github.com/IliyaBrook/use-apollo-infinite-scroll/blob/master/assets/demo.gif)
-![image](https://github.com/IliyaBrook/use-apollo-infinite-scroll/blob/master/assets/demo.gif)

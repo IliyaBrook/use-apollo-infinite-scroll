@@ -904,6 +904,11 @@ ignore-by-default@^1.0.1:
   resolved "https://registry.yarnpkg.com/ignore-by-default/-/ignore-by-default-1.0.1.tgz#48ca6d72f6c6a3af00a9ad4ae6876be3889e2b09"
   integrity sha512-Ius2VYcGNk7T90CppJqcIkS5ooHUZyIQK+ClZfMfMNFEF9VSE73Fq+906u/CWu92x4gzZMWOwfFYckPObzdEbA==
 
+infinite-pagination-mongo@^1.0.10:
+  version "1.0.10"
+  resolved "https://registry.yarnpkg.com/infinite-pagination-mongo/-/infinite-pagination-mongo-1.0.10.tgz#3385690aa6afef2f90d7eabd42325b0732c29bc7"
+  integrity sha512-+pXFwUZtxJf0tVo8mD7sYdKlbzX0Q1HJ/kbYj3kWWnOiWNwA2kvdWquOm3KNqfBQnqAZZvr0a938jnOq2EHJ2Q==
+
 inherits@2.0.4, inherits@^2.0.1:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/inherits/-/inherits-2.0.4.tgz#0fa2c64f932917c3433a0ded55363aae37416b7c"

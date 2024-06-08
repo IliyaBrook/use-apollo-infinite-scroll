@@ -1,10 +1,12 @@
 import Item from './models/Item'
-
+import paginate from "infinite-pagination-mongo";
 
 interface queryInterface {
 	cursor?: string;
 	limit?: number;
-	search?: string
+	sortBy?: string;
+	sortOrder?: "asc" | "desc";
+	filters?: Record<string, any>;
 }
 
 const resolvers = {
@@ -12,23 +14,23 @@ const resolvers = {
 		async items(_: any, {
 			cursor,
 			limit = 10,
-			search
+			sortBy,
+			sortOrder,
+			filters
 		}:queryInterface) {
-			const query: any = {}
-			if (search) {
-				query.name = { $regex: search, $options: "i" };
-			}
-			if (cursor) {
-				const lastItem = await Item.findById(cursor);
-				if (lastItem) {
-					query._id = { $lt: lastItem._id };
+			
+			const response =   await paginate(
+				Item,
+				{
+					cursor,
+					limit,
+					sortBy,
+					sortOrder,
+					filters,
+					idKey: "_id",
 				}
-			}
-			const items = await Item.find(query)
-				.sort({ _id: -1 })
-				.limit(limit + 1);
-			console.log('itemsResponse', items)
-			return items
+			);
+			return response.items;
 		}
 	}
 }

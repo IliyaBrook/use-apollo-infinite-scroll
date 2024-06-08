@@ -10,6 +10,7 @@
     "@types/node": "^20.12.12",
     "express": "^4.19.2",
     "graphql": "^16.8.1",
+    "infinite-pagination-mongo": "^1.0.10",
     "mongodb-memory-server": "^9.3.0",
     "mongoose": "^8.4.1",
     "nodemon": "^3.1.3",
