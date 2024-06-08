@@ -1,7 +1,7 @@
 {
 	"name": "use-apollo-infinite-scroll",
 	"description": "infinite pagination react package hook for react using apollo client.",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"type": "module",
 	"main": "dist/use-apollo-infinite-scroll.umd.js",
 	"module": "dist/use-apollo-infinite-scroll.es.js",
