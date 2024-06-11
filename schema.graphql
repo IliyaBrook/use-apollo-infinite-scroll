@@ -14,5 +14,5 @@ type Item {
 }
 
 type Query {
-	items(cursor: String, limit: Int, filters: FiltersInput, sortOrder: String, sortBy: String): [Item!]!
+	items(cursor: String, limit: Int, filters: FiltersInput, sortOrder: String): [Item!]!
 }

@@ -1,58 +1,20 @@
+import type { UseApolloInfiniteScrollProps, UseApolloInfiniteScrollReturn } from '@/types/types'
 import {
-	type QueryResult,
 	useQuery,
 	useSuspenseQuery,
-	type UseSuspenseQueryResult
 } from '@apollo/client'
 import type { OperationVariables } from '@apollo/client/core'
 import type { DocumentNode } from 'graphql/language'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
-interface UseApolloInfiniteScrollProps<
-	_TData,
-	TVariables extends OperationVariables & {
-		limit: number
-		sortBy?: string
-		sortOrder?: 'asc' | 'desc'
-		filters?: Record<string, any>
-	}
-> {
-	idKey?: string
-	dataKey?: string
-	suspense?: boolean
-	variables?: TVariables
-	limit: number
-	sortBy?: string
-	sortOrder?: 'asc' | 'desc'
-	filters?: Record<string, any>
-}
-
-type UseApolloInfiniteScrollReturn<
-	TData,
-	TVariables extends OperationVariables & {
-		limit: number
-		sortBy?: string
-		sortOrder?: 'asc' | 'desc'
-		filters?: Record<string, any>
-	}
-> = (UseSuspenseQueryResult<TData> | QueryResult<TData>) & {
-	data: TData | undefined
-	loading: boolean
-	error: any
-	fetchMore: (variables?: TVariables) => void
-	lastItemRef: (node: HTMLDivElement | null) => void
-}
-
 const useApolloInfiniteScroll = <
 	TData = any,
 	TVariables extends OperationVariables & {
 		limit: number
-		sortBy?: string
 		sortOrder?: 'asc' | 'desc'
 		filters?: Record<string, any>
 	} = {
 		limit: number
-		sortBy?: string
 		sortOrder?: 'asc'
 		filters?: Record<string, any>
 	}
@@ -65,11 +27,11 @@ const useApolloInfiniteScroll = <
 	const {
 		suspense,
 		limit = 30,
-		sortBy,
 		sortOrder,
 		filters,
 		dataKey,
-		idKey = 'id',
+		populate,
+		idKey = '_id',
 		variables,
 		...restHookOptions
 	}: UseApolloInfiniteScrollProps<TData, TVariables> = hookOptions
@@ -88,7 +50,6 @@ const useApolloInfiniteScroll = <
 		variables: {
 			cursor: null,
 			limit,
-			sortBy,
 			sortOrder,
 			filters,
 			...variables
@@ -107,7 +68,7 @@ const useApolloInfiniteScroll = <
 				if (entries[0].isIntersecting && data.length > 0 && hasMore) {
 					const cursor = data[data.length - 1]?.[idKey]
 					void fetchMore({
-						variables: { cursor, limit, sortBy: sortBy || undefined, sortOrder, filters },
+						variables: { cursor, limit, sortOrder, filters },
 						updateQuery: (previousResult: TData, { fetchMoreResult }) => {
 							if (!fetchMoreResult || fetchMoreResult?.[dataKey].length === 0) {
 								setHasMore(false)
@@ -125,15 +86,15 @@ const useApolloInfiniteScroll = <
 			})
 			if (node) observer.current.observe(node)
 		},
-		[data, fetchMore, hasMore, sortBy, sortOrder, JSON.stringify(filters)]
+		[data, fetchMore, hasMore, sortOrder, JSON.stringify(filters)]
 	)
 	
 	useEffect(() => {
 		setHasMore(true)
 		void refetch({
-			cursor: null, limit, sortBy: sortBy || undefined, sortOrder, filters
+			cursor: null, limit, sortOrder, filters
 		})
-	}, [limit, sortBy, sortOrder, sortOrder, JSON.stringify(filters)])
+	}, [limit, sortOrder, sortOrder, JSON.stringify(filters)])
 	
 	return {
 		...queryResult,

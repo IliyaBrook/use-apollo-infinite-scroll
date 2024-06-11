@@ -4,7 +4,6 @@ import paginate from "infinite-pagination-mongo";
 interface queryInterface {
 	cursor?: string;
 	limit?: number;
-	sortBy?: string;
 	sortOrder?: "asc" | "desc";
 	filters?: Record<string, any>;
 }
@@ -14,7 +13,6 @@ const resolvers = {
 		async items(_: any, {
 			cursor,
 			limit = 10,
-			sortBy,
 			sortOrder,
 			filters
 		}:queryInterface) {
@@ -24,7 +22,6 @@ const resolvers = {
 				{
 					cursor,
 					limit,
-					sortBy,
 					sortOrder,
 					filters,
 					idKey: "_id",

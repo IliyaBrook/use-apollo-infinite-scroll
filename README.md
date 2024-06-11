@@ -37,7 +37,8 @@ const App = () => {
 	const { data, lastItemRef, loading } = useApolloInfiniteScroll(ITEMS_QUERY, {
 		limit: 10,
 		dataKey: 'items',
-		idKey: 'id'
+		idKey: 'id',
+		populate: 'user',
 	})
 	
 	return (
@@ -65,7 +66,6 @@ export default App
 * **suspense** - A boolean to determine if suspense mode is used.
 * **variables** - Additional variables to pass to the query.
 * **limit** - Number of items to fetch per request (default: 30).
-* **sortBy** - Field to sort the items by.
 * **sortOrder** - Order to sort the items ('asc' or 'desc').
 * **filters** - Filter object to filter the items.
 

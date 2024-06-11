@@ -13,8 +13,6 @@ interface ItemInt {
 
 
 const App = (): ReactElement => {
-	
-	const [sortBy, setSortBy] = useState<string>('');
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
 	const [filters, setFilters] = useState<Record<any, string>>({});
 	const [debouncedFilters, setDebouncedFilters] = useState<Record<any, string>>({});
@@ -26,8 +24,8 @@ const App = (): ReactElement => {
 	}, [dFilter])
 	
 	const {data, lastItemRef, loading } = useApolloInfiniteScroll<ItemInt[]>(gql`
-		query itemsQuery($cursor: String, $limit: Int, $filters: FiltersInput, $sortBy: String, $sortOrder: String) {
-			items(cursor: $cursor, limit: $limit, filters: $filters, sortBy: $sortBy, sortOrder: $sortOrder) {
+		query itemsQuery($cursor: String, $limit: Int, $filters: FiltersInput, $sortOrder: String) {
+			items(cursor: $cursor, limit: $limit, filters: $filters, sortOrder: $sortOrder) {
 				id
 				name
 				description
@@ -36,7 +34,6 @@ const App = (): ReactElement => {
 	`, {
 		limit: 10,
 		filters: debouncedFilters,
-		sortBy: sortBy,
 		sortOrder: sortOrder,
 		suspense: false,
 		dataKey: 'items',
@@ -44,9 +41,6 @@ const App = (): ReactElement => {
 	})
 	
 	
-	const handleSortChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		setSortBy(e.target.value);
-	};
 	
 	const handleSortOrderChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
 		setSortOrder(e.target.value as 'asc' | 'desc');
@@ -66,14 +60,6 @@ const App = (): ReactElement => {
 			<div className="controls">
 				<div className="sort-controls">
 					<label>
-						Sort By:
-						<select value={sortBy} onChange={handleSortChange}>
-							<option value="">None</option>
-							<option value="name">Name</option>
-							<option value="description">Description</option>
-						</select>
-					</label>
-					<label>
 						Sort Order:
 						<select value={sortOrder} onChange={handleSortOrderChange}>
 							<option value="asc">Ascending</option>
@@ -83,7 +69,7 @@ const App = (): ReactElement => {
 				</div>
 				<div className="filter-controls">
 					<label>
-						Filter by Name:
+						Find Name:
 						<input
 							type="text"
 							name="name"
@@ -92,7 +78,7 @@ const App = (): ReactElement => {
 						/>
 					</label>
 					<label>
-						Filter by Description:
+						Find Description:
 						<input
 							type="text"
 							name="description"
